@@ -1,0 +1,33 @@
+Design Document
+
+* Problem Statement: This script automates initial event screening. It provides baseline budget estimates based on a selected event type, calculates financial feasibility against a fixed $10,000 available budget, evaluates per-person costs, and assigns a processing priority tier based on the academic or social category of the event. 
+* Stakeholders: Event planners, clients, and campus coordinators.
+* System Inputs:
+    * Event selection string (e.g., Birthday, Wedding, Dance). 
+    * Requested budget float. 
+    * Expected attendees integer. 
+    * Event duration integer. 
+    * Event category string (academic/social/other). 
+    * (Note: available_budget is now hardcoded as 10000.0 on line 1, so it is no longer a user input). 
+* System Calculations:
+    * remaining_budget: available_budget - requested_budget. 
+    * cost_per_person: requested_budget / expected_attendees (utilizing an inline conditional to prevent zero-division errors). 
+    * total_time: expected_attendees * event_duration. 
+* System Outputs:
+    * A printed string displaying the typical budget range for the initial event selection. 
+    * A single formatted string displaying the final decision, the reason, and the priority tier. 
+* Decision Rules (Plain English):
+    * If the requested budget exceeds the fixed $10,000 available budget, the event is rejected. 
+    * If expected attendees are fewer than 10, the event is placed on the waiting list. 
+    * If the cost per person exceeds $25, the event is conditionally considered. 
+    * If none of the above are true, the event is accepted ("Worth my time"). 
+    * Creative Feature: Academic events are assigned priority tier 3, social events are assigned tier 2, and all other events default to tier 1. 
+2. Updated Testing Table
+Because available_budget is permanently fixed at $10,000 in this script iteration, the test cases are structured around that constant.
+
+Test Case	Example Inputs	Expected Result
+Normal Request	Budget: $5,000, Attendees: 300	Decision: "Worth my time"
+Budget Exceeded	Budget: $12,000, Attendees: 50	Decision: "Sorry, I can't do your event"
+Low Attendance	Budget: $200, Attendees: 5	Decision: "I'll have to put you on the waiting list"
+High Cost Per Attendee	Budget: $2,000, Attendees: 20	Decision: "I might consider taking on the event"
+Zero Attendees (Boundary)	Budget: $500, Attendees: 0	Decision: "I'll have to put you on the waiting list"
